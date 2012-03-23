@@ -1,0 +1,2 @@
+target:
+	./merge.rb

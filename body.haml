@@ -1,0 +1,125 @@
+/ Begin slides
+%section#title-slide.slide
+  %h1 Probando
+%section#que-son.slide
+  %h2 ¿Para qué sirven las expresiones regulares?
+  %ul
+    %li.slide
+      %h3 Para extraer información de un bloque de texto.
+    %li.slide
+      %h3 Choose Themes
+      %p One for slide styles and one for deck&nbsp;transitions.
+    %li.slide
+      %iframe{:src => "http://www.w3schools.com"}
+      %h3 Include Extensions
+      %p Add extra functionality to your deck, or leave it stripped&nbsp;down.
+      %pre
+        %code
+          %span{:style => "color:red"} iiiw
+          %span{:style => "color:red"} wiwi
+%section#markup.slide
+  %h2 The Markup
+  %p
+    Slides are just HTML elements with a class of
+    = succeed "." do
+      %code slide
+  %pre
+    %code
+      :preserve
+        &lt;section class=&quot;slide&quot;&gt;
+           &lt;h2&gt;How to Make a Deck&lt;/h2&gt;
+           &lt;ol&gt;
+              &lt;li&gt;
+                 &lt;h3&gt;Write Slides&lt;/h3&gt;
+                 &lt;p&gt;Slide content is simple HTML.&lt;/p&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                 &lt;h3&gt;Choose Themes&lt;/h3&gt;
+                 &lt;p&gt;One for slide styles and one for deck transitions.&lt;/p&gt;
+              &lt;/li&gt;
+              &hellip;
+           &lt;/ol&gt;
+        &lt;/section&gt;%section#themes.slide
+  %h2 Style Themes
+  %p Customizes the colors, typography, and layout of slide&nbsp;content.
+  %pre
+    %code &lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/css/style-theme.css&quot;&gt;
+  %h2 Transition Themes
+  %p
+    Defines transitions between slides using CSS3 transitions.  Less capable browsers fall back to cutaways. But
+    %strong you
+    aren&rsquo;t using
+    %em those
+    browsers to give your presentations, are&nbsp;you&hellip;
+  %pre
+    %code &lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/css/transition-theme.css&quot;&gt;
+%section#extensions.slide
+  %h2 Extensions
+  %p Core gives you basic slide functionality with left and right arrow navigation, but you may want more. Here are the ones included in this&nbsp;deck:
+  %ul
+    %li#extensions-goto.slide
+      %strong> deck.goto
+      \: Adds a shortcut key to jump to any slide number.  Hit g, type in the slide number, and hit&nbsp;enter.
+    %li#extensions-hash.slide
+      %strong> deck.hash
+      \: Enables internal linking within slides, deep linking to individual slides, and updates the address bar &amp; a permalink anchor with each slide&nbsp;change.
+    %li#extensions-menu.slide
+      %strong> deck.menu
+      \: Adds a menu view, letting you see all slides in a grid. Hit m to toggle to menu view, continue navigating your deck, and hit m to return to normal view. Touch devices can double-tap the deck to switch between&nbsp;views.
+    %li#extensions-navigation.slide
+      %strong> deck.navigation
+      \: Adds clickable left and right buttons for the less keyboard&nbsp;inclined.
+    %li#extensions-status.slide
+      %strong> deck.status
+      \: Adds a page number indicator. (current/total)
+  %p#extension-folders.slide
+    Each extension folder in the download package contains the necessary JavaScript, CSS, and HTML&nbsp;files. For a complete list of extension modules included in deck.js, check out the&nbsp;
+    %a{:href => "http://imakewebthings.github.com/deck.js/docs"}> documentation
+    \.
+%section#nested.slide
+  %h2 Nested Slides
+  %p That last slide had a few steps.  To create substeps in slides, just nest them:
+  %pre
+    %code
+      :preserve
+        &lt;section class=&quot;slide&quot;&gt;
+          &lt;h2&gt;Extensions&lt;/h2&gt;
+          &lt;p&gt;Core gives you basic slide functionality...&lt;/p&gt;
+          &lt;ul&gt;
+             &lt;li class=&quot;slide&quot;&gt;
+                &lt;h3&gt;deck.goto&lt;/h3&gt;
+                &lt;p&gt;Adds a shortcut key to jump to any slide number...&lt;/p&gt;
+             &lt;/li&gt;
+             &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;
+             &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;
+             &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/section&gt;%section#elements-images.slide
+  %h2 Other Elements: Images
+  %img{:alt => "Kitties", :src => "http://placekitten.com/600/375"}/
+  %pre
+    %code &lt;img src=&quot;http://placekitten.com/600/375&quot; alt=&quot;Kitties&quot;&gt;
+%section#elements-blockquotes.slide
+  %h2 Other Elements: Blockquotes
+  %blockquote{:cite => "http://example.org"}
+    %p Food is an important part of a balanced diet.
+    %p
+      %cite Fran Lebowitz
+  %pre
+    %code
+      :preserve
+        &lt;blockquote cite=&quot;http://example.org&quot;&gt;
+          &lt;p&gt;Food is an important part of a balanced diet.&lt;/p&gt;
+          &lt;p&gt;&lt;cite&gt;Fran Lebowitz&lt;/cite&gt;&lt;/p&gt;
+        &lt;/blockquote&gt;%section#elements-videos.slide
+  %h2 Other Elements: Video Embeds
+  %p Embed videos from your favorite online video service or with an HTML5 video&nbsp;element.
+  %iframe{:frameborder => "0", :height => "225", :src => "http://player.vimeo.com/video/1063136?title=0&amp;byline=0&amp;portrait=0", :width => "400"}
+  %pre
+    %code &lt;iframe src=&quot;http://player.vimeo.com/video/1063136?title=0&amp;amp;byline=0&amp;amp;portrait=0&quot; width=&quot;400&quot; height=&quot;225&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;
+%section#digging-deeper.slide
+  %h2 Digging Deeper
+  %p
+    If you want to learn about making your own themes, extending deck.js, and more, check out the&nbsp;
+    %a{:href => "docs/"}> documentation
+    \.
