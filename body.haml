@@ -1,6 +1,6 @@
 / Begin slides
 %section#title-slide.slide
-  %h1 Expresiones Regulares.
+  %h1 Expresiones Regulares
 
 %section#que-son.slide
   %h2 ¿Para qué sirven las expresiones regulares?
@@ -52,7 +52,7 @@
     :markdown
       ### Particularidad de grep
 
-      Rodeamos el patrón por el símbolo <code>'</code>
+      Rodeamos el patrón por el delimitador <code>'</code>
 
       Utilizaremos el modificador **-E** para que harán que nuestras expresiones regulares se comporten más como las universales.
 
@@ -70,8 +70,8 @@
     %pre.slide.bold
       %code
         :preserve
-          echo 'Hola Mundo' | grep 'Hola Mundo'
-          <span style="color: green">Hola Mundo</span>
+          echo 'Hola Mundo' | grep -E 'Hola Mundo'
+          <span class="match">Hola Mundo</span>
 
   .slide
     %p
@@ -79,8 +79,8 @@
     %pre.slide.bold
       %code
         :preserve
-          echo 'Hola Mundo' | grep 'la Mun'
-          Ho<span style="color: green">la Mun</span>do
+          echo 'Hola Mundo' | grep -E 'la Mun'
+          Ho<span class="match">la Mun</span>do
 
   .slide
     %p
@@ -88,7 +88,7 @@
     %pre.slide.bold
       %code
         :preserve
-          echo 'Hala Mundo' | grep 'Hola Mundo'
+          echo 'Hala Mundo' | grep -E 'Hola Mundo'
 
   .slide
     %p
@@ -96,10 +96,10 @@
     %pre.slide.bold
       %code
         :preserve
-          echo 'HOLA MUNDO' | grep 'Hola Mundo'
+          echo 'HOLA MUNDO' | grep -E 'Hola Mundo'
 
 %section#punto.slide
-  %h2 El punto
+  %h2 .
 
   %ul
     %li.slide El punto <code>'.'</code> es el símbolo especial más importante.
@@ -109,8 +109,8 @@
   %pre.slide.bold
     %code
       :preserve
-        echo 'Hola Mundo' | grep 'H.la Mundo'
-        <span style="color: green">Hola Mundo</span>
+        echo 'Hola Mundo' | grep -E 'H.la Mundo'
+        <span class="match">Hola Mundo</span>
 
   .slide
     %p
@@ -118,14 +118,325 @@
     %pre.slide.bold
       %code
         :preserve
-          echo 'Hola Mundo' | grep '.a.M..'
-          Ho<span style="color: green">la Mun</span>do
+          echo 'Hola Mundo' | grep -E '.a.M..'
+          Ho<span class="match">la Mun</span>do
 
   .slide
     %p
-      El comando no devuelve nada si no encuentra el patrón:
+      Para referirnos al símbolo real de <code>'.'</code> tenemos que escaparlo:
     %pre.slide.bold
       %code
         :preserve
-          echo 'Hala Mundo' | grep 'H.a Mundo'
+          echo 'Hola Mundo.' | grep -E 'Hola Mundo\.'
+          <span class="match">Hola Mundo.</span>
+  .slide
+    %p
+      <span class="error">Error frecuente:</span> Utilizar <code>'.'</code> sin escapar al buscar una extensión:
+    %pre.slide.bold
+      %code
+        :preserve
+          echo 'no_soy_un_mp3.flac' | grep -E '.mp3'
+          no_soy_un<span class="match">_mp3</span>.flac
+
+%section#asterisco.slide
+  %h2 *
+
+  %ul
+    %li.slide El caracter que le precede puede estar repetido <code>0</code> o cualquier número de veces.
+    %li.slide Especialmente útil en combinación con el punto: <code>'.*'</code>. Representa cualquier cadena (o la cadena vacía):
+
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Holaaaaaaa Mundo' | grep -E 'Hola* x*Mundo'
+        <span class="match">Holaaaaaaa Mundo</span>
+
+  .slide
+    %p
+      En combinación con el punto:
+    %pre.slide.bold
+      %code
+        :preserve
+          echo 'Hola Mundo' | grep -E 'H.*o'
+          <span class="match">Hola Mundo</span>
+
+  .slide
+    %p
+      Para referirnos al símbolo real de <code>'*'</code> tenemos que escaparlo: <code>'\*'</code>
+
+
+%section#mas.slide
+  %h2 +
+
+  %ul
+    %li.slide Parecido a <code>'*'</code>.
+    %li.slide El caracter que le precede puede estar repetido <code>1</code> o cualquier número de veces.
+    %li.slide Si el caracter que le precede no existe, no se cumple el patrón.
+
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E 'Hola x+Mundo'
+
+  .slide
+    %p
+      En combinación con el punto:
+    %pre.slide.bold
+      %code
+        :preserve
+          echo 'Hola Mundo' | grep -E 'H.+o'
+          <span class="match">Hola Mundo</span>
+
+%section#comienzo_final.slide
+  %h2 Comienzo y final: ^ $
+
+  %ul
+    %li.slide El inicio de una cadena está representado por <code>^</code>
+    %li.slide El final de una cadena está representado por <code>$</code>
+
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E '^Hola'
+        <span class="match">Hola</span> Mundo
+
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E 'Mundo$'
+        Hola <span class="match">Mundo</span>
+
+  .slide
+    %p
+      Un ejemplo erróneo:
+    %pre.slide.bold
+      %code
+        :preserve
+          echo 'Hola Mundo' | grep -E '^Mundo'
+
+%section#interrogacion.slide
+  %h2 ?
+
+  %ul
+    %li.slide El carácter que le precede puede existir <code>0</code> o <code>1</code> vez.
+    %li.slide Toma un significado distino si va precedido de <code>'+'</code> o de <code>'*'</code>, que se explicará más adelante.
+
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E 'Hola Ma?e?i?o?u?ndo'
+        <span class="match">Hola Mundo</span>
+
+  .slide
+    %p
+      Si el caracter está repetido más de una vez, no dará resultado.
+    %pre.slide.bold
+      %code
+        :preserve
+          echo 'Holaa Mundo' | grep -E 'Hola? Mundo'
+
+%section#corchetes.slide
+  %h2 [ ]
+
+  %ul
+    %li.slide Indican un conjunto de posibles caracteres válidos:
+  %pre.slide.center.bold
+    %code
+      :preserve
+        [abc012]
+  %ul
+    %li.slide Se pueden introducir rangos:
+  %pre.slide.center.bold
+    %code
+      :preserve
+        [A-Z0-9]
+  %ul
+    %li.slide Se suelen usar en combinación con <code>'*'</code> o <code>'+'</code> para indicar más de uno de esos caracteres:
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E 'Hola [a-zM]+$'
+        <span class="match">Hola Mundo</span>
+  %ul
+    %li.slide Ejemplo erróneo:
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E 'Hola M[a-z]o'
+
+  %ul
+    %li.slide Todos los símbolos especiales pasas a ser reales si están incluidos dentro de los corchetes, a excepción de <code>'-'</code> que indica un rango; y de <code>'^'</code>.
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola. Mundo.' | grep -E 'Hola[.] Mundo\.'
+
+%section#corchetes_negado.slide
+  %h2 [^ ]
+
+  %ul
+    %li.slide Si se usa el símbolo <code>'^'</code> inmediatamente después de los corchetes indica que habrá <em>match</em> para cualquier caracter <em>excepto</em> los listados:
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E 'Hola [^0-9]+$'
+        <span class="match">Hola Mundo</span>
+
+  .slide
+    %p Ejemplo sin <em>match</em>:
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E 'Hola M[^a-z]+$'
+
+%section#curly.slide
+  %h2 { }
+  %ul
+    %li.slide
+      Permite controlar exactamente el número de veces que se repite el caracter que le precede:
+  %pre.slide.bold
+    %code
+      :preserve
+        {n}   # exactamente n veces
+        {n,}  # n o más veces
+        {n,m} # entre n y m veces
+  %ul
+    %li.slide Ejemplo:
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Holaaaa MMundoo' | grep -E 'Hola{3,} M{2}undo{1,3}$'
+
+%section#parens.slide
+  %h2 ( )
+  %ul
+    %li.slide Permiten aplicar: <code>'*'</code>, <code>'+'</code>, <code>'?'</code> y <code>'{ }'</code> sobre la cadena entre paréntesis.
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | grep -E 'Hola( Mundo)?'
+        <span class="match">Hola Mundo</span>
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola' | grep -E 'Hola( Mundo)?'
+        <span class="match">Hola</span>
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Me río: jajajaja' | grep -E '(ja)+'
+        Me río: <span class="match">jajajaja</span>
+
+
+%section#parens_or.slide
+  %h2 ( | )
+  %ul
+    %li.slide Se producirá <em>match</em> si existe alguna de las subdenas contenidas dentro de los paréntesis delimitadas por <code>'|'</code>.
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hello World' | grep -E '(Hola|Hello) (World|Mundo)'
+        <span class="match">Hello World</span>
+  %ul
+    %li.slide Puede haber tantas subcadenas como se quiera:
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Tengo dos perros' | grep -E 'Tengo (dos|tres|cuatro) perros'
+        <span class="match">Tengo dos perros</span>
+
+%section#ip.slide
+  %h2 IP
+  .slide
+    %p Construimos una expresión regular que haga <em>match</em> de una IP. Las IPs están compuesta por los siguientes bloques repetidos varias veces:
+
+  %ul
+    %li.slide Entre <em>1</em> y <em>3</em> números seguidos.
+  %pre.slide.center.bold
+    %code
+      :preserve
+        [0-9]{1,3}
+  %ul
+    %li.slide Y un punto: <code>'\.'</code>
+
+  .slide
+    %p Agrupando los bloques anteriores:
+  %pre.slide.center.bold
+    %code
+      :preserve
+        /[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/
+  .slide
+    %p Aplicando sobre <code>ifconfig</code>:
+  %pre.slide.bold
+    %code
+      ifconfig eth0 | grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
+      inet <span class="match">192.168.0.20</span>  netmask <span class="match">255.255.255.0</span>  broadcast <span class="match">192.168.0.255</span>
+  .slide
+    %p Utilizaremos el modificador de <code>grep -o</code> para mostrae únicamente la subcadena que hace <em>match</em> y no la línea entera:
+  %pre.slide.bold
+    %code
+      :preserve
+        ifconfig eth0 | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
+        <span class="match">192.168.0.20</span>
+        <span class="match">255.255.255.0</span>
+        <span class="match">192.168.0.255</span>
+
+%section#sed.slide
+  %h2 sed
+  .slide
+    %p Usaremos <code>sed</code> para realizar <em>sustituciones</em>.
+  %ul
+    %li.slide El modificador <code>sed -r</code> es útil para usar expresiones regulares universales.
+    %li.slide El patrón de una sustitución se expresa de la siguiente manera:
+  %pre.slide.center.bold
+    %code
+      :preserve
+        s/<em>patron</em>/<em>sustitución</em>/
+  %ul
+    %li.slide Una sustitución sencilla:
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola Mundo' | sed -r 's/M.{3}o/World/'
+        Hola <span class="match">World</span>
+  %ul
+    %li.slide Sin embargo solo se realizará una sustitución por defecto
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Me río: jajaja' | sed -r 's/ja/ji/'
+        Me río: <span class="match">ji</span>jaja
+  %ul
+    %li.slide Para que se aplican todas las sustituciones posibles debemos poner <code>'g'</code> al final de la expresión regular:
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Me río: jajaja' | sed -r 's/ja/ji/g'
+        Me río: <span class="match">jijiji</span>
+
+%section#captures.slide
+  %h2 Capturas
+  .slide
+    %p En una sustitución nos podremos referir a las cadenas contenidas dentro de los paréntesis del <em>patrón</em>, llamadas cadenas <em>capturadas</em>, mediante: <code>\1</code>, <code>\2</code>, etc.
+  %pre.slide.bold
+    %code
+      :preserve
+        echo 'Hola A y B' | sed -r 's/Hola (.*) y (.*)/Adios, \1. Adios, \2./'
+        Adios, <span class="match">A</span>. Adios, <span class="match">B</span>
+  .slide
+    %p Aparte de los símbolos <code>\1</code>, <code>\2</code>, etc... Ningún otro símbolo especial de los patrones se tienen que escapar en la <em>sustitución</em>.
+
+%section#captures.slide
+  %h2 Recursos
+  %ul
+    %li.slide
+      %a{href: "http://rubular.com"}
+        Rubular
+      \- Excelente sitio para probar y construir expresiones regulares.
+    %li.slide
+      %a{href: "http://perldoc.perl.org/perlre.html"}
+        perlre
+      \- Documentación de Perl sobre expresiones regulares.
+
+
 
