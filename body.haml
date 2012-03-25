@@ -15,7 +15,7 @@
       %h3
         Se pueden usar en
         %span{style: "color: #C00"} cualquier
-        lenguaje, por ejemplo: Bash.
+        lenguaje, por ejemplo: <em>Bash</em>.
 
 %section#sintaxis.slide
   %h2 Sintáxis
@@ -35,26 +35,22 @@
         . * ? + ^ $ [ ] ( ) | \
 
   .slide
-    :markdown
-      Para referirnos al símbolo real tenemos que preceder cada uno de los
-      anteriores símbolos por ```\```.
+    Para referirnos al símbolo real tenemos que preceder cada uno de los
+    anteriores símbolos por <code>'\'</code>.
 
 %section#ejemplos.slide
   %h2 Formato de los ejemplos
+  .slide
+    %h3 Comandos <em>Unix</em>
+    %p
+      En esta presentación vamos a evaluar expresiones regulares a través de comandos <em>Unix</em> como: <code>grep</code> y <code>sed</code>.
 
   .slide
-    :markdown
-      ### Comandos Unix
-
-      En esta presentación vamos a evaluar expresiones regulares a través de comandos **Unix** como: **grep** y **sed**.
-
-  .slide
-    :markdown
-      ### Particularidad de grep
-
-      Rodeamos el patrón por el delimitador <code>'</code>
-
-      Utilizaremos el modificador **-E** para que harán que nuestras expresiones regulares se comporten más como las universales.
+    %h3 Usando <em>grep</em>
+    %p
+      Rodeamos el patrón por el delimitador <code>'</code>.
+    %p
+      Utilizaremos el modificador <code>-E</code> para que harán que nuestras expresiones regulares se comporten más como las universales.
 
   %pre.slide.bold.center
     %code
@@ -99,7 +95,7 @@
           echo 'HOLA MUNDO' | grep -E 'Hola Mundo'
 
 %section#punto.slide
-  %h2 .
+  %h2 El .
 
   %ul
     %li.slide El punto <code>'.'</code> es el símbolo especial más importante.
@@ -265,7 +261,7 @@
         echo 'Hola Mundo' | grep -E 'Hola M[a-z]o'
 
   %ul
-    %li.slide Todos los símbolos especiales pasas a ser reales si están incluidos dentro de los corchetes, a excepción de <code>'-'</code> que indica un rango; y de <code>'^'</code>.
+    %li.slide No se debe escapar los símbolos especiales dentro de los corchetes, a excepción de <code>'-'</code> que indica un rango; y de <code>'^'</code>.
   %pre.slide.bold
     %code
       :preserve
@@ -306,6 +302,7 @@
     %code
       :preserve
         echo 'Holaaaa MMundoo' | grep -E 'Hola{3,} M{2}undo{1,3}$'
+        <span class="match">Holaaaa MMundoo</span>
 
 %section#parens.slide
   %h2 ( )
@@ -331,7 +328,7 @@
 %section#parens_or.slide
   %h2 ( | )
   %ul
-    %li.slide Se producirá <em>match</em> si existe alguna de las subdenas contenidas dentro de los paréntesis delimitadas por <code>'|'</code>.
+    %li.slide Se producirá <em>match</em> si existe alguna de las subcadenas contenidas dentro de los paréntesis delimitadas por <code>'|'</code>.
   %pre.slide.bold
     %code
       :preserve
@@ -372,7 +369,7 @@
       ifconfig eth0 | grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
       inet <span class="match">192.168.0.20</span>  netmask <span class="match">255.255.255.0</span>  broadcast <span class="match">192.168.0.255</span>
   .slide
-    %p Utilizaremos el modificador de <code>grep -o</code> para mostrae únicamente la subcadena que hace <em>match</em> y no la línea entera:
+    %p Utilizaremos el modificador de <code>grep -o</code> para mostrar únicamente la subcadena que hace <em>match</em> y no la línea entera:
   %pre.slide.bold
     %code
       :preserve
